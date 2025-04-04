@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { ClerkProvider } from "@clerk/nextjs";
 import "../globals.css";
 import SideBar from "@/components/layout/SideBar";
+import TopBar from "@/components/layout/TopBar";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -32,6 +33,7 @@ export default function RootLayout({
         >
           <div className="flex max-lg:flex-col text-grey-1">
             <SideBar />
+            <TopBar />
             {children}
           </div>
         </body>

@@ -4,6 +4,7 @@ import { ClerkProvider } from "@clerk/nextjs";
 import "../globals.css";
 import SideBar from "@/components/layout/SideBar";
 import TopBar from "@/components/layout/TopBar";
+import { ToastProvider } from "@/lib/ToastProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -31,6 +32,7 @@ export default function RootLayout({
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         >
+          <ToastProvider/>
           <div className="flex max-lg:flex-col text-grey-1">
             <SideBar />
             <TopBar />

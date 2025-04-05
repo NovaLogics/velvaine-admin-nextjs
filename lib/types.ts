@@ -8,4 +8,4 @@ type CollectionType = {
 
 type ProductType = {
   
-  };
+};

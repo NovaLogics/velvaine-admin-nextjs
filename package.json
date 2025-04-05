@@ -11,6 +11,7 @@
   "dependencies": {
     "@clerk/nextjs": "^6.13.0",
     "@hookform/resolvers": "^5.0.1",
+    "@radix-ui/react-alert-dialog": "^1.1.6",
     "@radix-ui/react-label": "^2.1.2",
     "@radix-ui/react-separator": "^1.1.2",
     "@radix-ui/react-slot": "^1.1.2",

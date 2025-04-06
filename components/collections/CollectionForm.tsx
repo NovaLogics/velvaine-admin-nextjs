@@ -50,6 +50,16 @@ const CollectionForm: React.FC<CollectionFormProps> = ({ initialData }) => {
         },
   });
 
+  const handleKeyPress = (
+    event:
+      | React.KeyboardEvent<HTMLInputElement>
+      | React.KeyboardEvent<HTMLTextAreaElement>
+  ) => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+    }
+  };
+
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     console.log(values);
     try {
@@ -89,7 +99,7 @@ const CollectionForm: React.FC<CollectionFormProps> = ({ initialData }) => {
       {initialData ? (
         <div className="flex items-center justify-between">
           <p className="text-heading2-bold">Edit Collection</p>
-          <Delete id={initialData._id}/>
+          <Delete id={initialData._id} />
         </div>
       ) : (
         <p className="text-heading2-bold">Create Collection</p>
@@ -105,7 +115,11 @@ const CollectionForm: React.FC<CollectionFormProps> = ({ initialData }) => {
               <FormItem>
                 <FormLabel>Title</FormLabel>
                 <FormControl>
-                  <Input placeholder="title" {...field} />
+                  <Input
+                    placeholder="title"
+                    {...field}
+                    onKeyDown={handleKeyPress}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -118,7 +132,12 @@ const CollectionForm: React.FC<CollectionFormProps> = ({ initialData }) => {
               <FormItem>
                 <FormLabel>Description</FormLabel>
                 <FormControl>
-                  <Textarea placeholder="description" {...field} rows={8} />
+                  <Textarea
+                    placeholder="description"
+                    {...field}
+                    rows={8}
+                    onKeyDown={handleKeyPress}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>

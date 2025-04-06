@@ -16,25 +16,31 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
   onChange,
   onRemove,
 }) => {
+  let index1 = 0;
   const onUpload = (result: any) => {
-    console.log("Upload Result:", result);
-    onChange(result.info.secure_url);
+    console.log("Upload Result:"+(index1++)+" : ", result);
+   
+    const url = result.info.secure_url;
+    onChange(url);
   };
 
+  let index = 0;
+  console.log("Image URL ARR size:", value.length);
+  value.forEach((url) => console.log("Image URL:"+(index++)+" : ", url));
 
-  value.forEach((url) => console.log("Image URL:", url));
   return (
     <div>
       <div className="mb-4 flex flex-wrap items-center gap-4">
-        {value.length > 0 && value.map((url) => (
+        {value.map((url) => (
           <div key={url} className="relative w-[200px] h-[200px]">
             <div className="absolute top-0 right-0 z-10">
               <Button
-                className="bg-red-1 text-white"
+                type="button"
                 onClick={() => onRemove(url)}
                 size="sm"
+                className="bg-red-1 text-white"
               >
-                <Trash className="w-4 h-4" />
+                <Trash className="h-4 w-4" />
               </Button>
             </div>
             <Image
@@ -42,17 +48,16 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
               alt="collection"
               className="object-cover rounded-lg"
               fill
-              unoptimized
             />
           </div>
         ))}
       </div>
 
-      <CldUploadWidget 
-      uploadPreset="velvaine-admin" 
-      onSuccess={(result, { widget }) => {
-        onUpload(result)
-      }}
+      <CldUploadWidget
+        uploadPreset="velvaine-admin"
+        onSuccess={(result, { widget }) => {
+          onUpload(result);
+        }}
       >
         {({ open }) => {
           return (

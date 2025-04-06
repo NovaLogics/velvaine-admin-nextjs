@@ -9,10 +9,10 @@ type CollectionType = {
 type ProductType = {
   _id: string;
   title: string;
-  desciption: string;
+  description: string;
   media: string[];
   category: string;
-  collections: CollectionType[];
+  collections: string[];
   tags: string[];
   sizes: string[];
   colors: string[];

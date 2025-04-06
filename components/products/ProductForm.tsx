@@ -22,6 +22,7 @@ import { Button } from "@/components/ui/button";
 import React, { useState } from "react";
 import toast from "react-hot-toast";
 import Delete from "../custom_ui/Delete";
+import MultiText from "../custom_ui/MultiText";
 
 const formSchema = z.object({
   title: z.string().min(2).max(24).trim(),
@@ -124,6 +125,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
       <Separator className="bg-grey-1 mt-4 mb-7" />
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+          {/* Title */}
           <FormField
             control={form.control}
             name="title"
@@ -141,6 +143,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
               </FormItem>
             )}
           />
+          {/* Description */}
           <FormField
             control={form.control}
             name="description"
@@ -159,23 +162,131 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
               </FormItem>
             )}
           />
-          {/* <FormField
+          {/* Image */}
+          <FormField
             control={form.control}
-            name="image"
+            name="media"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Image</FormLabel>
                 <FormControl>
                   <ImageUpload
-                    value={field.value ? [field.value] : []}
-                    onChange={(url) => field.onChange(url)}
-                    onRemove={() => field.onChange("")}
+                    value={field.value}
+                    onChange={(url) => field.onChange([...field.value, url])}
+                    onRemove={(url) =>
+                      field.onChange([
+                        ...field.value.filter((image) => image !== url),
+                      ])
+                    }
                   />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
-          /> */}
+          />
+          {/* ---- */}
+          <div className="md:grid md:grid-cols-3 gap-8">
+            {/* Price */}
+            <FormField
+              control={form.control}
+              name="price"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Price ($)</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="number"
+                      placeholder="price"
+                      {...field}
+                      onKeyDown={handleKeyPress}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            {/* Expense */}
+            <FormField
+              control={form.control}
+              name="expense"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Expense ($)</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="number"
+                      placeholder="expense"
+                      {...field}
+                      onKeyDown={handleKeyPress}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            {/* Stock */}
+            <FormField
+              control={form.control}
+              name="stock"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Stock</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="number"
+                      placeholder="stock"
+                      {...field}
+                      onKeyDown={handleKeyPress}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+          {/* ---- */}
+          {/* Category */}
+          <FormField
+            control={form.control}
+            name="category"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Category</FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder="category"
+                    {...field}
+                    onKeyDown={handleKeyPress}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          {/* Tags */}
+          <FormField
+            control={form.control}
+            name="tags"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Tags</FormLabel>
+                <FormControl>
+                  <MultiText
+                    placeholder="Tags"
+                    value={field.value}
+                    onChange={(tag) => field.onChange([...field.value, tag])}
+                    onRemove={(tagToRemove) =>
+                      field.onChange([
+                        ...field.value.filter((tag) => tag !== tagToRemove),
+                      ])
+                    }
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          {/* Button Group */}
           <div className="flex gap-10">
             <Button className="bg-blue-1 text-white" type="submit">
               Submit

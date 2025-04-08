@@ -3,7 +3,6 @@ import { FC, useState } from "react";
 
 import { Badge } from "@/components/ui/badge";
 import { Input } from "../ui/input";
-import { Button } from "../ui/button";
 import { X } from "lucide-react";
 
 interface MultiTextProps {
@@ -21,8 +20,8 @@ const MultiText: FC<MultiTextProps> = ({
 }) => {
   const [inputValue, setInputValue] = useState<string>("");
 
-  const addValue = (tag: string) => {
-    onChange(tag);
+  const addValue = (value: string) => {
+    onChange(value);
     setInputValue("");
   };
 

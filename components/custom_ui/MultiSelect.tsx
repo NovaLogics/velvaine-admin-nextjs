@@ -47,6 +47,7 @@ const MultiSelect: React.FC<MultiSelectProps> = ({
     (collection) => !selectedCollection.includes(collection)
   );
 
+
   return (
     <Command className="overflow-visible bg-white">
       <div className="flex gap-1 flex-wrap border rounded-md">

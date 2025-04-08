@@ -1,3 +1,4 @@
+import Collection from "@/lib/models/Collection";
 import Product from "@/lib/models/Product";
 import { connectToDB } from "@/lib/mongodb";
 import { currentUser } from "@clerk/nextjs/server";
@@ -16,7 +17,7 @@ export const POST = async (request: NextRequest) => {
       description,
       media,
       category,
-      collection,
+      collections,
       tags,
       sizes,
       colors,
@@ -45,7 +46,7 @@ export const POST = async (request: NextRequest) => {
       description,
       media,
       category,
-      collection,
+      collections,
       tags,
       sizes,
       colors,
@@ -66,5 +67,27 @@ export const POST = async (request: NextRequest) => {
   } catch (error) {
     console.log("Error creating product:", error);
     return new NextResponse("Failed to create product!", { status: 500 });
+  }
+};
+
+export const GET = async (request: NextRequest) => {
+  try {
+    await connectToDB();
+
+    const products = await Product.find()
+      .sort({ createdAt: "desc" })
+      .populate({ path: "collections", model: Collection });
+
+      console.log("Products fetched successfully! ", products.length);
+    return NextResponse.json(
+      {
+        message: "Products fetched successfully!",
+        products,
+      },
+      { status: 200 }
+    );
+  } catch (error) {
+    console.log("Error fetching products:", error);
+    return new NextResponse("Failed to fetch products!", { status: 500 });
   }
 };

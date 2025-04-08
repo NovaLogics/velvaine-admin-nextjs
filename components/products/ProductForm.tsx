@@ -141,7 +141,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
       {initialData ? (
         <div className="flex items-center justify-between">
           <p className="text-heading2-bold">Edit Product</p>
-          <Delete id={initialData._id} />
+          <Delete id={initialData._id} item="product" />
         </div>
       ) : (
         <p className="text-heading2-bold">Create Product</p>
@@ -196,10 +196,11 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                 <FormLabel>Image</FormLabel>
                 <FormControl>
                   <ImageUpload
-                    value={field.value ? field.value : []}
+                    value={field.value}
                     onChange={(url) => {
-                      const updated = [...(field.value || []), url];
-                      field.onChange(updated);
+                      field.value.push(url)
+                      field.onChange(field.value);
+                      console.log("images", field.value);
                     }}
                     onRemove={(url) =>
                       field.onChange([
@@ -302,7 +303,11 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                       placeholder="collections"
                       collections={collections}
                       value={field.value}
-                      onChange={(_id) => field.onChange([...field.value, _id])}
+                      onChange={(_id) => {
+                        field.value.push(_id);
+                        field.onChange(field.value);
+                        console.log("selectables", field.value);
+                      }}
                       onRemove={(idToRemove) =>
                         field.onChange([
                           ...field.value.filter(

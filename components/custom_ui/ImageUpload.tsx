@@ -1,6 +1,7 @@
 "use client";
 import { CldUploadWidget } from "next-cloudinary";
 import { ImagePlus, Trash } from "lucide-react";
+import React, { useState } from "react";
 
 import { Button } from "../ui/button";
 import Image from "next/image";
@@ -16,17 +17,12 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
   onChange,
   onRemove,
 }) => {
-  let index1 = 0;
   const onUpload = (result: any) => {
-    console.log("Upload Result:"+(index1++)+" : ", result);
-   
     const url = result.info.secure_url;
     onChange(url);
   };
 
-  let index = 0;
   console.log("Image URL ARR size:", value.length);
-  value.forEach((url) => console.log("Image URL:"+(index++)+" : ", url));
 
   return (
     <div>
@@ -56,6 +52,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
       <CldUploadWidget
         uploadPreset="velvaine-admin"
         onSuccess={(result, { widget }) => {
+          console.log("image upload: ", JSON.stringify(result.event));
           onUpload(result);
         }}
       >

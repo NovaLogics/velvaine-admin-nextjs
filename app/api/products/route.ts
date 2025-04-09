@@ -57,6 +57,17 @@ export const POST = async (request: NextRequest) => {
 
     await newProduct.save();
 
+    if(collections){
+      for(const collectionId of collections){
+        const collection= await Collection.findById(collectionId);
+        if(collection) {
+          collection.product.push(newProduct._id);
+          await collection.save();
+        }
+      }
+
+    }
+
     return NextResponse.json(
       {
         message: "Product created successfully!",

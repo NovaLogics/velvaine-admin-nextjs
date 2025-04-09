@@ -24,6 +24,7 @@ import toast from "react-hot-toast";
 import Delete from "../custom_ui/Delete";
 import MultiText from "../custom_ui/MultiText";
 import MultiSelect from "../custom_ui/MultiSelect";
+import Loader from "../custom_ui/Loader";
 
 const formSchema = z.object({
   title: z.string().min(2).max(24).trim(),
@@ -47,7 +48,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
   const router = useRouter();
   const params = useParams();
 
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
   const [collections, setCollections] = useState<CollectionType[]>([]);
 
   const getCollections = async () => {
@@ -76,7 +77,12 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: initialData
-      ? initialData
+      ? {
+          ...initialData,
+          collections: initialData.collections.map(
+            (collection) => collection._id
+          ),
+        }
       : {
           title: "",
           description: "",
@@ -136,7 +142,9 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
     }
   };
 
-  return (
+  return loading ? (
+    <Loader />
+  ) : (
     <div className="p-10 w-full">
       {initialData ? (
         <div className="flex items-center justify-between">
@@ -198,7 +206,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                   <ImageUpload
                     value={field.value}
                     onChange={(url) => {
-                      field.value.push(url)
+                      field.value.push(url);
                       field.onChange(field.value);
                       console.log("images", field.value);
                     }}
@@ -291,36 +299,39 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                 </FormItem>
               )}
             />
+
             {/* Collections */}
-            <FormField
-              control={form.control}
-              name="collections"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Collections</FormLabel>
-                  <FormControl>
-                    <MultiSelect
-                      placeholder="collections"
-                      collections={collections}
-                      value={field.value}
-                      onChange={(_id) => {
-                        field.value.push(_id);
-                        field.onChange(field.value);
-                        console.log("selectables", field.value);
-                      }}
-                      onRemove={(idToRemove) =>
-                        field.onChange([
-                          ...field.value.filter(
-                            (collectionId) => collectionId !== idToRemove
-                          ),
-                        ])
-                      }
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+            {collections.length > 0 && (
+              <FormField
+                control={form.control}
+                name="collections"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Collections</FormLabel>
+                    <FormControl>
+                      <MultiSelect
+                        placeholder="collections"
+                        collections={collections}
+                        value={field.value}
+                        onChange={(_id) => {
+                          field.value.push(_id);
+                          field.onChange(field.value);
+                          console.log("selectables", field.value);
+                        }}
+                        onRemove={(idToRemove) =>
+                          field.onChange([
+                            ...field.value.filter(
+                              (collectionId) => collectionId !== idToRemove
+                            ),
+                          ])
+                        }
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            )}
 
             {/* Tags */}
             <FormField
@@ -409,7 +420,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
             <Button
               className="bg-blue-1 text-white"
               type="button"
-              onClick={() => router.push("/collections")}
+              onClick={() => router.push("/products")}
             >
               Discard
             </Button>

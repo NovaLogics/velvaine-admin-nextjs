@@ -61,7 +61,7 @@ export const POST = async (request: NextRequest) => {
       for(const collectionId of collections){
         const collection= await Collection.findById(collectionId);
         if(collection) {
-          collection.product.push(newProduct._id);
+          collection.products?.push(newProduct._id);
           await collection.save();
         }
       }

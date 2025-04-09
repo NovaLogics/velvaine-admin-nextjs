@@ -111,9 +111,10 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     console.log(values);
     try {
+      const { productId } = await params;
       setLoading(true);
       const url = initialData
-        ? `/api/products/${params.productId}`
+        ? `/api/products/${productId}`
         : "/api/products"; //params.productId || initialData._id
       const response = await fetch(url, {
         method: "POST",

@@ -47,7 +47,6 @@ const MultiSelect: React.FC<MultiSelectProps> = ({
     (collection) => !selectedCollection.includes(collection)
   );
 
-
   return (
     <Command className="overflow-visible bg-white">
       <div className="flex gap-1 flex-wrap border rounded-md">
@@ -55,6 +54,7 @@ const MultiSelect: React.FC<MultiSelectProps> = ({
           <Badge key={collection._id}>
             {collection.title}
             <button
+              type="button"
               className="ml-1 hover:bg-red-1"
               onClick={() => {
                 onRemove(collection._id);

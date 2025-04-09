@@ -1,4 +1,5 @@
 import Collection from "@/lib/models/Collection";
+import Product from "@/lib/models/Product";
 import { connectToDB } from "@/lib/mongodb";
 import { currentUser } from "@clerk/nextjs/server";
 import { NextRequest, NextResponse } from "next/server";
@@ -63,8 +64,6 @@ export const POST = async (
     return new NextResponse("Collection updated successfully", {
       status: 200,
     });
-
-
   } catch (error) {
     console.log("Error in POST /api/collections", error);
     return new Response("Internal Server Error", { status: 500 });
@@ -85,6 +84,11 @@ export const DELETE = async (
     const { collectionId } = await params;
 
     await Collection.findByIdAndDelete(collectionId);
+
+    await Product.updateMany(
+      { collections: collectionId },
+      { $pull: { collections: collectionId } }
+    );
 
     return new NextResponse("Collection deleted successfully", { status: 200 });
   } catch (error) {

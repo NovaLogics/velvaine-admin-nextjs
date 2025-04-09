@@ -12,7 +12,9 @@ const ProductDetails = ({ params }: { params: { productId: string } }) => {
   const getProductDetails = async () => {
     try {
       setLoading(true);
-      const response = await fetch(`/api/products/${params.productId}`, {
+      let { productId } = await params;
+
+      const response = await fetch(`/api/products/${productId}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",

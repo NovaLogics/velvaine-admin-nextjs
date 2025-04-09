@@ -94,19 +94,19 @@ export const POST = async (
       //Update added collections with this product
       ...addedCollections?.map((collectionId: string) =>
         Collection.findByIdAndUpdate(collectionId, {
-          $push: { products: productId },
+          $push: { products: product._id },
         })
       ),
       //Update removed collections with this product
       ...removedCollections?.map((collectionId: string) =>
         Collection.findByIdAndUpdate(collectionId, {
-          $pull: { products: productId },
+          $pull: { products: product._id },
         })
       ),
     ]);
 
     const updatedProduct = await Product.findByIdAndUpdate(
-      productId,
+      product._id,
       {
         title,
         description,
@@ -134,6 +134,48 @@ export const POST = async (
     );
   } catch (error) {
     console.log("Error in POST /api/products", error);
+    return new Response("Internal Server Error", { status: 500 });
+  }
+};
+
+export const DELETE = async (
+  req: NextRequest,
+  { params }: { params: { productId: string } }
+) => {
+  try {
+    const user = await currentUser();
+
+    if (!user) return new NextResponse("Unauthorized", { status: 403 });
+
+    await connectToDB();
+
+    const { productId } = await params;
+
+    let product = await Product.findById(productId);
+
+    if (!product) {
+      console.log("Product not found", { status: 404 });
+    }
+
+    await Product.findByIdAndDelete(productId);
+
+    // Update collections
+    await Promise.all(
+      product.collections.map((collectionId: string) =>
+        Collection.findByIdAndUpdate(collectionId, {
+          $pull: { products: product._id },
+        })
+      )
+    );
+
+    return new NextResponse(
+      JSON.stringify({ message: "Product deleted successfully" }),
+      {
+        status: 200,
+      }
+    );
+  } catch (error) {
+    console.log("Error in DELETE /api/products", error);
     return new Response("Internal Server Error", { status: 500 });
   }
 };

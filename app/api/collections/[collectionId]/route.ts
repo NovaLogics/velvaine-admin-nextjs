@@ -13,7 +13,7 @@ export const GET = async (
 
     let { collectionId } = await params;
 
-    const collection = await Collection.findById(collectionId);
+    const collection = await Collection.findById(collectionId).populate({path: "products", model: Product});
     if (!collection) {
       return new NextResponse(
         JSON.stringify({ message: "Collection not found" }),

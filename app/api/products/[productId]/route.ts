@@ -24,7 +24,13 @@ export const GET = async (
       );
     }
 
-    return NextResponse.json(productDetails, { status: 200 });
+    return NextResponse.json(productDetails, { status: 200,
+      headers:{
+        "Access-Control-Allow-Origin": `${process.env.ECOMMERCE_STORE_URL}`,
+        "Access-Control-Allow-Methods": "GET",
+        "Access-Control-Allow-Headers": "Content-Type",
+      },
+     });
   } catch (error) {
     console.log("Error in GET /api/products", error);
     return new Response("Internal Server Error", { status: 500 });

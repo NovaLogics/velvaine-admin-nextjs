@@ -4,10 +4,10 @@ const customerSchema = new mongoose.Schema({
   clerkId: String,
   name: String,
   email: String,
-  orders: { 
-    type: [{ type: mongoose.Schema.Types.ObjectId, ref: "Order" }] 
-},
-createdAt: {
+  orders: {
+    type: [{ type: mongoose.Schema.Types.ObjectId, ref: "Order"}]
+  },
+  createdAt: {
     type: Date,
     default: Date.now,
   },
@@ -17,6 +17,7 @@ createdAt: {
   },
 });
 
-const Customer = mongoose.models.Customer || mongoose.model("Customer", customerSchema);
+const Customer =
+  mongoose.models.Customer || mongoose.model("Customer", customerSchema);
 
 export default Customer;

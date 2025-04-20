@@ -2,14 +2,7 @@ import Customer from "@/lib/models/Customer";
 import Order from "@/lib/models/Order";
 import { connectToDB } from "@/lib/mongodb";
 import { NextRequest, NextResponse } from "next/server";
-import Stripe from "stripe";
-
-export const stripe = new Stripe(
-  process.env.NEXT_PRIVATE_STRIPE_SECURITY_KEY!,
-  {
-    typescript: true,
-  }
-);
+import { stripe } from "@/lib/stripe";
 
 export async function POST(request: NextRequest) {
   try {
@@ -89,3 +82,5 @@ export async function POST(request: NextRequest) {
     return new NextResponse("Internal Server Error", { status: 500 });
   }
 }
+
+export const dynamic = "force-dynamic";

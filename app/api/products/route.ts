@@ -102,3 +102,5 @@ export const GET = async (request: NextRequest) => {
     return new NextResponse("Failed to fetch products!", { status: 500 });
   }
 };
+
+export const dynamic = "force-dynamic";

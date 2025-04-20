@@ -46,4 +46,6 @@ const OrderDetails = async ({ params }: { params: { orderId: string } }) => {
   );
 };
 
+export const dynamic = "force-dynamic";
+
 export default OrderDetails;

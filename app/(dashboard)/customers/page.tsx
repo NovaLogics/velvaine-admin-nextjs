@@ -8,7 +8,17 @@ import React from "react";
 const Customers = async () => {
   await connectToDB();
 
-  const customers = await Customer.find().sort({ createdAt: -1 });
+  //const customers = await Customer.find().sort({ createdAt: "desc" });
+  const rawCustomers = await Customer.find().sort({ createdAt: "desc" });
+
+  // Convert Mongoose documents to plain JS objects
+  const customers = rawCustomers.map(customer => ({
+    _id: customer._id.toString(),
+    clerkId: customer.clerkId,
+    name: customer.name,
+    email: customer.email,
+    createdAt: customer.createdAt.toISOString(),
+  }));
   return (
     <div className="px-10 py-5 w-full">
       <p className="text-heading2-bold">Customers</p>
@@ -18,5 +28,7 @@ const Customers = async () => {
     </div>
   );
 };
+
+export const dynamic = "force-dynamic";
 
 export default Customers;

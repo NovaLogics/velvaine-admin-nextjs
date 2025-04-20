@@ -38,4 +38,6 @@ const ProductDetails = ({ params }: { params: { productId: string } }) => {
   return loading ? <Loader /> : <ProductForm initialData={productDetails} />;
 };
 
+export const dynamic = "force-dynamic";
+
 export default ProductDetails;

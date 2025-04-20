@@ -43,11 +43,12 @@ const Products = () => {
         <p className="text-heading2-bold">Products</p>
 
         <Button
+        type="button"
           className="bg-blue-500 text-white hover:bg-blue-600"
           onClick={() => router.push("/products/create")}
         >
           <PlusSquare className="h-8 w-8 mr-2" />
-          Create Collection
+          Create Product
         </Button>
       </div>
       <Separator className="bg-grey-1 my-5" />

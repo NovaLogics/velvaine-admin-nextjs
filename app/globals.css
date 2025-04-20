@@ -1,0 +1,27 @@
+@import "tailwindcss";
+
+@theme {
+  --text-heading1-bold: 50px;
+  --text-heading2-bold: 30px;
+  --text-heading3-bold: 24px;
+  --text-heading4-bold: 20px;
+  --text-body-bold: 18px;
+  --text-body-semibold: 18px;
+  --text-body-medium: 18px;
+  --text-base-bold: 16px;
+  --text-base-medium: 16px;
+
+  --color-white-1: rgb(248, 248, 248);
+  --color-grey-1: rgb(97, 97, 97);
+  --color-grey-2: rgb(229, 231, 235);
+  --color-blue-1: rgb(0, 94, 190);
+  --color-blue-2: rgb(233, 245, 254);
+  --color-blue-3: rgb(245, 247, 249);
+  --color-red-1: rgb(255, 0, 0);
+}
+
+html,
+body,
+:root{
+  height: 100%;
+}
